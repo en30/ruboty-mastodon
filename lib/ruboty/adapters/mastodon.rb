@@ -28,13 +28,13 @@ module Ruboty
         begin
           streaming_client.user do |payload|
             Ruboty.logger.debug(payload.inspect)
-            case payload
-            when ::Mastodon::Status
-              Ruboty.logger.debug("#{payload.account.acct} tooted #{::Sanitize.fragment(payload.content).strip.inspect}")
+            if payload.is_a?(::Mastodon::Notification) && payload.status?
+              message = payload.status
+              Ruboty.logger.debug("#{message.account.acct} tooted #{::Sanitize.fragment(message.content).strip.inspect}")
               robot.receive(
-                body: ::Sanitize.fragment(payload.content).strip,
-                from: payload.account.acct,
-                message: payload
+                body: ::Sanitize.fragment(message.content).strip,
+                from: message.account.acct,
+                message: message
               )
             end
           end
