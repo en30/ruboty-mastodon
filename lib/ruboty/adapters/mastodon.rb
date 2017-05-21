@@ -27,6 +27,7 @@ module Ruboty
         Ruboty.logger.info("connecting to #{ENV['MASTODON_URL']} (retry_count: #{retry_count})")
         begin
           streaming_client.user do |payload|
+            Ruboty.logger.debug(payload.inspect)
             case payload
             when ::Mastodon::Status
               Ruboty.logger.debug("#{payload.account.acct} tooted #{::Sanitize.fragment(payload.content).strip.inspect}")
