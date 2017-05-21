@@ -6,7 +6,6 @@ module Ruboty
   module Adapters
     class Mastodon < Base
       env :MASTODON_URL, 'Mastodon url'
-      env :MASTODON_STREAMING_URL, 'Mastodon strewaming url (default: MASTODON_URL)'
       env :MASTODON_TOKEN, 'Mastodon access token'
 
       def run
